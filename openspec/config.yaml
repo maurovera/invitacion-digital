@@ -1,0 +1,91 @@
+schema: spec-driven
+
+context: |
+  Project: invitacion-digital
+
+  Purpose:
+  Build a reusable digital invitation template based on the current wedding-app fork.
+  The product should be easy to personalize for different events and deploy to Vercel.
+
+  Current stack:
+  - Next.js App Router
+  - React
+  - TypeScript
+  - Tailwind CSS
+  - Motion
+  - i18next
+  - pnpm is the intended package manager
+
+  Current baseline:
+  - The application runs correctly locally.
+  - The animated envelope is working and must be preserved.
+  - The invitation content loads correctly after opening the envelope.
+  - Personalized guest names are currently supported through query parameters.
+  - The existing visual experience is the baseline and should not be changed accidentally.
+
+  Product principles:
+  - Mobile-first.
+  - Preserve the envelope-opening experience as a core feature.
+  - Prefer reusable configuration over hardcoded event data.
+  - Event-specific assets must be separated from template assets.
+  - Prefer simple MVP solutions before introducing backend infrastructure.
+  - RSVP by WhatsApp is preferred for the first commercial MVP.
+  - Deployments will target Vercel.
+  - Commercial usage requires replacement or verification of third-party audio, photos, and other assets.
+
+  Engineering principles:
+  - Make small, independently verifiable changes.
+  - Do not combine dependency upgrades with visual refactors.
+  - Preserve behavior before refactoring.
+  - Production build must be validated before deploying.
+  - Prefer explicit timezone handling for event dates.
+  - Prioritize mobile performance and accessibility.
+  - Respect prefers-reduced-motion where applicable.
+  - Do not introduce unnecessary backend services for the first MVP.
+
+  Current technical findings:
+  - package-lock.json and pnpm-lock.yaml currently coexist.
+  - npm installation produced dependency resolution conflicts.
+  - pnpm installation works.
+  - Next.js 15.3.3 requires a security review/update.
+  - eslint-import-resolver-typescript exists through more than one version in the dependency graph.
+  - useSearchParams usage should be reviewed for production build compatibility.
+  - RSVP currently simulates success without sending data.
+  - The wedding date currently lacks explicit timezone information.
+  - Several pieces of event content remain hardcoded across components and locale files.
+  - Theme colors are distributed across Tailwind classes instead of semantic tokens.
+  - Gallery content is currently placeholder/demo content.
+  - The current audio asset must not be assumed safe for commercial reuse.
+
+  Workflow:
+  - Analysis first.
+  - Human review before implementation.
+  - OpenSpec proposal/spec/design/tasks must be reviewed before applying changes.
+  - Codex must not implement a change until explicitly approved.
+  - After implementation, perform human validation before archive/closure.
+
+rules:
+  proposal:
+    - Clearly state the problem being solved.
+    - Include scope and non-goals.
+    - Avoid combining unrelated technical and visual changes.
+    - Describe expected user-visible impact.
+  design:
+    - Preserve existing working behavior unless the change explicitly modifies it.
+    - Identify affected files/components.
+    - Document migration or compatibility risks.
+  tasks:
+    - Keep tasks small and independently verifiable.
+    - Include validation steps.
+    - Separate dependency changes from UI/refactoring changes.
+
+operations:
+  apply:
+    guidance:
+      - Do not make unrelated cleanup changes.
+      - Stop and report if implementation requires expanding the approved scope.
+      - Run relevant validation before considering tasks complete.
+  archive:
+    guidance:
+      - Summarize what changed.
+      - Record remaining risks or follow-up changes.
