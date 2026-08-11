@@ -1,6 +1,7 @@
 import { NAVIGATION_ANIMATIONS } from '@/constants/navigation';
 import type { NavigationSection } from '@/types/navigation';
 import { motion, AnimatePresence } from 'motion/react';
+import type { Transition } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 
 // NavigationButton Component for better code organization
@@ -10,6 +11,11 @@ interface NavigationButtonProps {
   isActive: boolean;
   onClick: () => void;
 }
+
+const backgroundTransition =
+  NAVIGATION_ANIMATIONS.background.transition as Transition;
+
+const pulseTransition = NAVIGATION_ANIMATIONS.pulse.transition as Transition;
 
 export function NavigationButton({
   section,
@@ -44,7 +50,7 @@ export function NavigationButton({
             initial={NAVIGATION_ANIMATIONS.background.initial}
             animate={NAVIGATION_ANIMATIONS.background.animate}
             exit={NAVIGATION_ANIMATIONS.background.exit}
-            transition={NAVIGATION_ANIMATIONS.background.transition}
+            transition={backgroundTransition}
             className={`absolute inset-0 bg-gradient-to-r ${section.gradient} rounded-lg sm:rounded-xl`}
           />
         )}
@@ -93,12 +99,12 @@ export function NavigationButton({
             initial={NAVIGATION_ANIMATIONS.background.initial}
             animate={{ scale: 1, opacity: 1 }}
             exit={NAVIGATION_ANIMATIONS.background.exit}
-            transition={NAVIGATION_ANIMATIONS.background.transition}
+            transition={backgroundTransition}
             className="absolute -bottom-0.5 sm:-bottom-1 left-1/2 -translate-x-1/2 w-0.5 sm:w-1 h-0.5 sm:h-1 bg-white rounded-full shadow-lg z-10"
           >
             <motion.div
               animate={NAVIGATION_ANIMATIONS.pulse.animate}
-              transition={NAVIGATION_ANIMATIONS.pulse.transition}
+              transition={pulseTransition}
               className="w-full h-full bg-white rounded-full"
             />
           </motion.div>
