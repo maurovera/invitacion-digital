@@ -67,3 +67,11 @@ export const NAVIGATION_SECTIONS = [
     gradient: 'from-cyan-500 to-teal-500',
   },
 ];
+
+export const getEnabledNavigationSections = (features: {
+  gallery: boolean;
+  rsvp: boolean;
+}) => NAVIGATION_SECTIONS.filter((section) =>
+  (section.id !== 'gallery' || features.gallery) &&
+  (section.id !== 'rsvp' || features.rsvp)
+);

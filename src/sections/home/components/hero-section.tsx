@@ -1,18 +1,20 @@
 'use client';
 
-import type { WeddingConfigType } from '@/types';
+import type { InvitationConfig } from '@/config';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 
 interface HeroSectionProps {
   isLoaded: boolean;
-  couple: WeddingConfigType;
+  couple: InvitationConfig['couple'];
+  showRsvpCta: boolean;
   onScrollToSection: (sectionId: string) => void;
 }
 
 export const HeroSection = ({
   isLoaded,
   couple,
+  showRsvpCta,
   onScrollToSection,
 }: HeroSectionProps) => {
   const { t } = useTranslation('home');
@@ -41,9 +43,9 @@ export const HeroSection = ({
                 {t('hero.welcome')}
               </div>
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-gray-800 mb-6 leading-tight">
-                Our
+                {t('hero.event-prefix')}
                 <span className="block bg-gradient-to-r from-rose-500 to-pink-600 bg-clip-text text-transparent">
-                  Wedding
+                  {t('hero.event-name')}
                 </span>
               </h1>
               <div className="w-32 h-px bg-gradient-to-r from-transparent via-rose-400 to-transparent mx-auto"></div>
@@ -106,14 +108,16 @@ export const HeroSection = ({
               transition={{ duration: 1, delay: 1.2 }}
               className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
             >
-              <motion.button
-                onClick={() => onScrollToSection('rsvp')}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-sm sm:text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
-              >
-                {t('navigation.rsvp')}
-              </motion.button>
+              {showRsvpCta && (
+                <motion.button
+                  onClick={() => onScrollToSection('rsvp')}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-gradient-to-r from-rose-500 to-pink-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-sm sm:text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer"
+                >
+                  {t('navigation.rsvp')}
+                </motion.button>
+              )}
               <motion.button
                 onClick={() => onScrollToSection('details')}
                 whileHover={{ scale: 1.05 }}

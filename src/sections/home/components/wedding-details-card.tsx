@@ -3,29 +3,30 @@
 import { motion } from 'motion/react';
 import {
   formatWeddingTime,
+  formatWeddingDate,
   generateGoogleCalendarLink,
-  generateMapLink,
 } from '@/lib/wedding-utils';
-import type { WeddingConfigType } from '@/types';
+import type { InvitationConfig } from '@/config';
 import { useTranslation } from 'react-i18next';
 import { useTranslate } from '@/locales';
 
 interface WeddingDetailsCardProps {
-  date: Date;
-  venue: WeddingConfigType['venue'];
+  event: InvitationConfig['event'];
+  venue: InvitationConfig['venues'];
 }
 
 export const WeddingDetailsCard = ({
-  date,
+  event,
   venue,
 }: WeddingDetailsCardProps) => {
   const { currentLang } = useTranslate();
   const { t } = useTranslation('home');
+  const date = new Date(event.startDateTime);
 
   const calendarEvent = {
     title: t('details.our-wedding-day'),
     start: date,
-    end: new Date(date.getTime() + 5 * 60 * 60 * 1000), // 5 hours later
+    end: new Date(date.getTime() + event.durationHours * 60 * 60 * 1000),
     description: t('details.join-us'),
     location: venue.ceremony.address,
   };
@@ -91,7 +92,7 @@ export const WeddingDetailsCard = ({
               >
                 <div className="bg-gradient-to-br from-rose-500 to-pink-600 text-white rounded-2xl p-4 sm:p-6 shadow-lg mb-2 h-24 sm:h-28 md:h-32 lg:h-36 flex flex-col items-center justify-center min-w-[100px] sm:min-w-[120px] md:min-w-[140px]">
                   <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-none">
-                    {date.getDate()}
+                    {formatWeddingDate(date, currentLang.numberFormat.code, event.timeZone, { day: 'numeric' })}
                   </div>
                 </div>
                 <p className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider mt-3">
@@ -109,14 +110,11 @@ export const WeddingDetailsCard = ({
               >
                 <div className="bg-gradient-to-br from-purple-500 to-indigo-600 text-white rounded-2xl p-4 sm:p-6 shadow-lg mb-2 h-24 sm:h-28 md:h-32 lg:h-36 flex flex-col items-center justify-center min-w-[100px] sm:min-w-[120px] md:min-w-[140px]">
                   <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-none mb-1">
-                    {date
-                      .toLocaleDateString(currentLang.numberFormat.code, {
-                        month: 'short',
-                      })
+                    {formatWeddingDate(date, currentLang.numberFormat.code, event.timeZone, { month: 'short' })
                       .toUpperCase()}
                   </div>
                   <div className="text-sm sm:text-base md:text-lg font-medium opacity-90">
-                    {date.getFullYear()}
+                    {formatWeddingDate(date, currentLang.numberFormat.code, event.timeZone, { year: 'numeric' })}
                   </div>
                 </div>
                 <p className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider mt-3">
@@ -134,7 +132,7 @@ export const WeddingDetailsCard = ({
               >
                 <div className="bg-gradient-to-br from-emerald-500 to-teal-600 text-white rounded-2xl p-4 sm:p-6 shadow-lg mb-2 h-24 sm:h-28 md:h-32 lg:h-36 flex flex-col items-center justify-center min-w-[100px] sm:min-w-[120px] md:min-w-[140px]">
                   <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold leading-none">
-                    {formatWeddingTime(date, currentLang.numberFormat.code)}
+                    {formatWeddingTime(date, currentLang.numberFormat.code, event.timeZone)}
                   </div>
                 </div>
                 <p className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider mt-3">
@@ -160,19 +158,13 @@ export const WeddingDetailsCard = ({
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 mb-3">
                     <span className="text-xl sm:text-2xl md:text-3xl">🗓️</span>
                     <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-serif text-gray-800 font-bold text-center leading-tight">
-                      {date.toLocaleDateString(currentLang.numberFormat.code, {
-                        weekday: 'long',
-                      })}
+                      {formatWeddingDate(date, currentLang.numberFormat.code, event.timeZone, { weekday: 'long' })}
                     </p>
                     <span className="text-xl sm:text-2xl md:text-3xl">🗓️</span>
                   </div>
                   <div className="w-16 sm:w-20 md:w-24 h-px bg-gradient-to-r from-transparent via-rose-400 to-transparent mx-auto mb-3"></div>
                   <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-600 font-medium">
-                    {date.toLocaleDateString(currentLang.numberFormat.code, {
-                      month: 'long',
-                      day: 'numeric',
-                      year: 'numeric',
-                    })}
+                    {formatWeddingDate(date, currentLang.numberFormat.code, event.timeZone, { month: 'long', day: 'numeric', year: 'numeric' })}
                   </p>
                   <p className="text-xs sm:text-sm md:text-base text-rose-600 font-semibold mt-2">
                     {t('details.mark-calendar')}
@@ -257,7 +249,7 @@ export const WeddingDetailsCard = ({
               </div>
 
               <motion.a
-                href={generateMapLink(venue.ceremony.name)}
+                href={venue.ceremony.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
@@ -307,7 +299,7 @@ export const WeddingDetailsCard = ({
               </div>
 
               <motion.a
-                href={generateMapLink(venue.reception.name)}
+                href={venue.reception.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}

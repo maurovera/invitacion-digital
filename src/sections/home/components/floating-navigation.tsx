@@ -6,17 +6,19 @@ import {
   LanguageToggle,
   NavigationButton,
 } from '@/components';
-import { NAVIGATION_SECTIONS } from '@/constants';
+import type { NAVIGATION_SECTIONS } from '@/constants';
 import { NAVIGATION_ANIMATIONS } from '@/constants/navigation';
 
 interface FloatingNavigationProps {
   activeSection: string;
   onScrollToSection: (sectionId: string) => void;
+  sections: typeof NAVIGATION_SECTIONS;
 }
 
 export default function FloatingNavigation({
   activeSection,
   onScrollToSection,
+  sections,
 }: FloatingNavigationProps) {
   return (
     <motion.nav
@@ -30,7 +32,7 @@ export default function FloatingNavigation({
         className="bg-white/90 backdrop-blur-xl rounded-xl sm:rounded-2xl px-1.5 sm:px-2 py-1.5 sm:py-2 shadow-xl border border-white/40 hover:shadow-2xl transition-all duration-300"
       >
         <div className="flex items-center space-x-0.5 sm:space-x-1">
-          {NAVIGATION_SECTIONS.map((section, index) => (
+          {sections.map((section, index) => (
             <NavigationButton
               key={section.id}
               section={section}

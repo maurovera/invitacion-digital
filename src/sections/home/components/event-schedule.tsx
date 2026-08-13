@@ -3,52 +3,15 @@
 import { motion } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
 import { useTranslation } from 'react-i18next';
+import type { InvitationConfig } from '@/config';
 
-export const EventSchedule = () => {
+export const EventSchedule = ({ items }: { items: InvitationConfig['schedule'] }) => {
   const { t } = useTranslation('home');
 
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.2,
   });
-
-  const scheduleItems = [
-    {
-      time: '3:30 PM',
-      event: t('schedule.guest-arrival'),
-      description: t('schedule.welcome-drinks'),
-    },
-    {
-      time: '4:00 PM',
-      event: t('schedule.wedding-ceremony'),
-      description: t('schedule.vows'),
-    },
-    {
-      time: '4:30 PM',
-      event: t('schedule.photography'),
-      description: t('schedule.welcome-drink'),
-    },
-    {
-      time: '6:30 PM',
-      event: t('schedule.reception-begins'),
-      description: t('schedule.dinner-celebration'),
-    },
-    {
-      time: '7:30 PM',
-      event: t('schedule.first-dance'),
-      description: t('schedule.special-moment'),
-    },
-    {
-      time: '8:00 PM',
-      event: t('schedule.dancing-party'),
-      description: t('schedule.celebration-continues'),
-    },
-    {
-      time: '12:00 AM',
-      event: t('schedule.send-off'),
-      description: t('schedule.sparkler-farewell'),
-    },
-  ];
 
   return (
     <div
@@ -73,9 +36,9 @@ export const EventSchedule = () => {
           <div className="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 top-0 bottom-0 w-px bg-rose-200"></div>
 
           <div className="space-y-8">
-            {scheduleItems.map((item, index) => (
+            {items.map((item, index) => (
               <motion.div
-                key={index}
+                key={item.id}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: inView ? 1 : 0, y: inView ? 0 : 30 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -101,10 +64,10 @@ export const EventSchedule = () => {
                       </span>
                     </div>
                     <h4 className="text-base sm:text-lg md:text-xl font-semibold text-gray-800 mb-1">
-                      {item.event}
+                      {t(item.titleKey)}
                     </h4>
                     <p className="text-gray-600 text-xs sm:text-sm md:text-base">
-                      {item.description}
+                      {t(item.descriptionKey)}
                     </p>
                   </div>
                 </div>

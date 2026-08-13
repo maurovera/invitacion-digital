@@ -1,16 +1,15 @@
 'use client';
 
-import { NAVIGATION_SECTIONS } from '@/constants';
 import { motion } from 'motion/react';
 
 interface ScrollProgressIndicatorProps {
   activeSection: string;
+  sections: readonly string[];
 }
-
-const sections = NAVIGATION_SECTIONS.map((section) => section.id);
 
 export default function ScrollProgressIndicator({
   activeSection,
+  sections,
 }: ScrollProgressIndicatorProps) {
   const progress = (sections.indexOf(activeSection) + 1) / sections.length;
 

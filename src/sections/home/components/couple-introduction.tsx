@@ -1,20 +1,24 @@
 'use client';
 
-import type { WeddingConfigType } from '@/types';
+import type { InvitationConfig, TranslationKey } from '@/config';
 import { motion } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
 import { useTranslation } from 'react-i18next';
 import Image from 'next/image';
 
 interface CoupleIntroductionProps {
-  bride: WeddingConfigType['bride'];
-  groom: WeddingConfigType['groom'];
+  bride: InvitationConfig['couple']['bride'];
+  groom: InvitationConfig['couple']['groom'];
+  storyKey: TranslationKey;
+  quoteKey: TranslationKey;
   isVisible: boolean;
 }
 
 export const CoupleIntroduction = ({
   bride,
   groom,
+  storyKey,
+  quoteKey,
 }: CoupleIntroductionProps) => {
   const { t } = useTranslation('home');
 
@@ -41,7 +45,7 @@ export const CoupleIntroduction = ({
           </h2>
           <div className="w-24 h-px bg-rose-400 mx-auto"></div>
           <p className="text-base sm:text-lg md:text-xl text-gray-600 mt-6 max-w-2xl mx-auto">
-            {t('couple.story-text')}
+            {t(storyKey)}
           </p>
         </motion.div>
 
@@ -74,10 +78,10 @@ export const CoupleIntroduction = ({
               {bride.fullName}
             </h3>
             <p className="text-base sm:text-lg md:text-xl text-rose-600 mb-4 font-medium">
-              {t('couple.the-bride')}
+              {t(bride.roleKey)}
             </p>
             <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed max-w-md mx-auto lg:mx-0 lg:ml-auto">
-              {t('couple.bride-description')}
+              {t(bride.descriptionKey)}
             </p>
 
             {/* Decorative Elements */}
@@ -142,10 +146,10 @@ export const CoupleIntroduction = ({
               {groom.fullName}
             </h3>
             <p className="text-base sm:text-lg md:text-xl text-blue-600 mb-4 font-medium">
-              {t('couple.the-groom')}
+              {t(groom.roleKey)}
             </p>
             <p className="text-sm sm:text-base md:text-lg text-gray-600 leading-relaxed max-w-md mx-auto lg:mx-0">
-              {t('couple.groom-description')}
+              {t(groom.descriptionKey)}
             </p>
 
             {/* Decorative Elements */}
@@ -166,9 +170,9 @@ export const CoupleIntroduction = ({
         >
           <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-8 max-w-2xl mx-auto shadow-lg border border-white/40">
             <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif text-gray-700 italic mb-4">
-              {t('couple.love-quote')}
+              {t(quoteKey)}
             </p>
-            <p className="text-gray-500 text-xs sm:text-sm">— Clannad</p>
+            <p className="text-gray-500 text-xs sm:text-sm">— {t('couple.quote-attribution')}</p>
           </div>
         </motion.div>
       </div>

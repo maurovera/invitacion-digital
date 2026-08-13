@@ -3,12 +3,15 @@
 import { motion } from 'motion/react';
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import type { TranslationKey } from '@/config';
 
 interface MusicPlayerProps {
   className?: string;
+  audioPath: string;
+  titleKey: TranslationKey;
 }
 
-export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
+export default function MusicPlayer({ className = '', audioPath, titleKey }: MusicPlayerProps) {
   const { t } = useTranslation('home');
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -213,7 +216,7 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
             </motion.div>
             <div>
               <div className="font-medium text-sm">
-                {t('music.wedding-music')}
+                {t(titleKey)}
               </div>
               <div className="text-xs opacity-90">
                 {t('music.click-to-start')}
@@ -245,15 +248,15 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
           ref={audioRef}
           loop
           preload="auto"
-          src="/assets/audio/shirushi-lisa.mp3"
+          src={audioPath}
           aria-label="Wedding background music"
         >
           <track
             kind="captions"
-            src="/assets/audio/shirushi-lisa.mp3"
-            label="No captions available"
+            src={audioPath}
+            label={t('music.no-captions')}
           />
-          Your browser does not support the audio element.
+          {t('music.unsupported-browser')}
         </audio>
 
         {/* Progress Ring */}
@@ -426,8 +429,8 @@ export default function MusicPlayer({ className = '' }: MusicPlayerProps) {
             </div>
             <div className="text-gray-300 text-xs">
               {autoplayBlocked && !hasInteracted
-                ? `${t('music.wedding-music')} (Autoplay Blocked)`
-                : t('music.wedding-music')}
+                ? `${t(titleKey)} (${t('music.autoplay-blocked-label')})`
+                : t(titleKey)}
             </div>
 
             {/* Tooltip arrow */}

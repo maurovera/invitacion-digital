@@ -1,26 +1,21 @@
 'use client';
 
 import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 
 interface NavigationFABProps {
   activeSection: string;
   onScrollToSection: (sectionId: string) => void;
+  sections: readonly string[];
 }
-
-const sections = [
-  'hero',
-  'couple',
-  'details',
-  'venue',
-  'gallery',
-  'rsvp',
-  'closing',
-];
 
 export default function NavigationFAB({
   activeSection,
   onScrollToSection,
+  sections,
 }: NavigationFABProps) {
+  const { t } = useTranslation('home');
+
   const handleNextSection = () => {
     const currentIndex = sections.indexOf(activeSection);
     const nextSection = sections[(currentIndex + 1) % sections.length];
@@ -136,10 +131,10 @@ export default function NavigationFAB({
           className="absolute right-full top-1/2 -translate-y-1/2 mr-4 bg-gray-800/90 text-white text-xs px-3 py-2 rounded-lg shadow-lg backdrop-blur-sm whitespace-nowrap pointer-events-none"
         >
           <div className="font-medium capitalize">
-            {activeSection === 'hero' ? 'Home' : activeSection}
+            {activeSection === 'hero' ? t('navigation.current-home') : activeSection}
           </div>
           <div className="text-gray-300 text-xs">
-            {sections.indexOf(activeSection) + 1} of {sections.length}
+            {sections.indexOf(activeSection) + 1} {t('navigation.progress-of')} {sections.length}
           </div>
 
           {/* Tooltip arrow */}
