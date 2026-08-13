@@ -4,21 +4,24 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'next/navigation';
+import type { TranslationKey } from '@/config';
 
 interface LetterAnimationProps {
   onOpen: () => void;
   coupleName: string;
+  guestFallbackKey: TranslationKey;
 }
 
 export const LetterAnimation = ({
   onOpen,
   coupleName,
+  guestFallbackKey,
 }: LetterAnimationProps) => {
   const { t } = useTranslation('home');
   const searchParams = useSearchParams();
 
   const toName =
-    searchParams.get('to') || searchParams.get('toName') || t('letter.guest');
+    searchParams.get('to') || searchParams.get('toName') || t(guestFallbackKey);
 
   const [isOpening, setIsOpening] = useState(false);
   const [isHovered, setIsHovered] = useState(false);

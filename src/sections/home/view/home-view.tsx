@@ -18,15 +18,19 @@ import {
   MusicPlayer,
   ScrollProgressIndicator,
 } from '../components';
-import { NAVIGATION_SECTIONS, WEDDING_CONFIG } from '@/constants';
+import { getEnabledNavigationSections } from '@/constants';
+import { INVITATION_CONFIG } from '@/config';
 
 export default function HomeView() {
+  const config = INVITATION_CONFIG;
+  const navigationSections = getEnabledNavigationSections(config.features);
+  const progressionSections = [...navigationSections.map(({ id }) => id), 'closing'];
   const [isLoaded, setIsLoaded] = useState(false);
   const [showLetter, setShowLetter] = useState(true);
 
   // Auto-detect active section using scroll spy
   const activeSection = useScrollSpy(
-    NAVIGATION_SECTIONS.map((section) => section.id)
+    progressionSections
   );
 
   useEffect(() => {
@@ -58,7 +62,8 @@ export default function HomeView() {
     return (
       <LetterAnimation
         onOpen={handleLetterOpen}
-        coupleName={`${WEDDING_CONFIG.bride.name} & ${WEDDING_CONFIG.groom.name}`}
+        coupleName={`${config.couple.bride.name} & ${config.couple.groom.name}`}
+        guestFallbackKey={config.envelope.guestFallbackKey}
       />
     );
   }
@@ -68,13 +73,15 @@ export default function HomeView() {
       <FloatingNavigation
         activeSection={activeSection}
         onScrollToSection={scrollToSection}
+        sections={navigationSections}
       />
 
       {/* Hero Section */}
       <section id="hero" className="relative">
         <HeroSection
           isLoaded={isLoaded}
-          couple={WEDDING_CONFIG}
+          couple={config.couple}
+          showRsvpCta={config.features.rsvp}
           onScrollToSection={scrollToSection}
         />
       </section>
@@ -82,8 +89,10 @@ export default function HomeView() {
       {/* Couple Introduction */}
       <section id="couple" className="relative">
         <CoupleIntroduction
-          bride={WEDDING_CONFIG.bride}
-          groom={WEDDING_CONFIG.groom}
+          bride={config.couple.bride}
+          groom={config.couple.groom}
+          storyKey={config.couple.storyKey}
+          quoteKey={config.couple.quoteKey}
           isVisible={isLoaded}
         />
       </section>
@@ -91,47 +100,56 @@ export default function HomeView() {
       {/* Wedding Details */}
       <section id="details" className="relative">
         <WeddingDetailsCard
-          date={WEDDING_CONFIG.date}
-          venue={WEDDING_CONFIG.venue}
+          event={config.event}
+          venue={config.venues}
         />
-        <CountdownTimer targetDate={WEDDING_CONFIG.date} />
+        {config.features.countdown && (
+          <CountdownTimer targetDateTime={config.event.startDateTime} />
+        )}
       </section>
 
       {/* Venue Information */}
       <section id="venue" className="relative">
-        <VenueInformation venue={WEDDING_CONFIG.venue} />
-        <EventSchedule />
+        <VenueInformation venue={config.venues} />
+        {config.features.schedule && <EventSchedule items={config.schedule} />}
       </section>
 
       {/* Gallery Preview */}
-      <section id="gallery" className="relative">
-        <GalleryPreview />
-      </section>
+      {config.features.gallery && (
+        <section id="gallery" className="relative">
+          <GalleryPreview items={config.gallery} />
+        </section>
+      )}
 
       {/* RSVP Section */}
-      <section id="rsvp" className="relative">
-        <RSVP />
-      </section>
+      {config.features.rsvp && (
+        <section id="rsvp" className="relative">
+          <RSVP contact={config.contact} deadline={config.event.rsvpDeadline} timeZone={config.event.timeZone} />
+        </section>
+      )}
 
       {/* Closing Message */}
       <section id="closing" className="relative">
         <ClosingMessage
-          bride={WEDDING_CONFIG.bride.fullName}
-          groom={WEDDING_CONFIG.groom.fullName}
+          bride={config.couple.bride.fullName}
+          groom={config.couple.groom.fullName}
+          hashtags={config.contact.hashtags}
+          email={config.contact.email}
         />
       </section>
 
       {/* Music Player */}
-      <MusicPlayer />
+      {config.features.music && <MusicPlayer {...config.music} />}
 
       {/* Mobile Navigation FAB */}
       <NavigationFAB
         activeSection={activeSection}
         onScrollToSection={scrollToSection}
+        sections={progressionSections}
       />
 
       {/* Scroll Progress Indicator */}
-      <ScrollProgressIndicator activeSection={activeSection} />
+      <ScrollProgressIndicator activeSection={activeSection} sections={progressionSections} />
     </div>
   );
 }

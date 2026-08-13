@@ -3,54 +3,15 @@
 import { motion } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
 import { useTranslation } from 'react-i18next';
+import type { InvitationConfig } from '@/config';
 
-export const GalleryPreview = () => {
+export const GalleryPreview = ({ items }: { items: InvitationConfig['gallery'] }) => {
   const { t } = useTranslation('home');
 
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.2,
   });
-
-  // Mock gallery images
-  const galleryImages = [
-    {
-      id: 1,
-      category: 'engagement',
-      emoji: '💕',
-      description: t('gallery.engagement'),
-    },
-    {
-      id: 2,
-      category: 'travel',
-      emoji: '✈️',
-      description: t('gallery.travel'),
-    },
-    {
-      id: 3,
-      category: 'date',
-      emoji: '🌹',
-      description: t('gallery.date'),
-    },
-    {
-      id: 4,
-      category: 'proposal',
-      emoji: '💍',
-      description: t('gallery.proposal'),
-    },
-    {
-      id: 5,
-      category: 'family',
-      emoji: '👨‍👩‍👧‍👦',
-      description: t('gallery.family'),
-    },
-    {
-      id: 6,
-      category: 'friends',
-      emoji: '🎉',
-      description: t('gallery.friends'),
-    },
-  ];
 
   return (
     <div
@@ -74,7 +35,7 @@ export const GalleryPreview = () => {
         </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-          {galleryImages.map((image, index) => (
+          {items.map((image, index) => (
             <motion.div
               key={image.id}
               initial={{ opacity: 0, scale: 0.8 }}
@@ -93,7 +54,7 @@ export const GalleryPreview = () => {
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-end">
                 <div className="p-4 text-white transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
                   <p className="text-xs sm:text-sm md:text-base font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                    {image.description}
+                    {t(image.captionKey)}
                   </p>
                 </div>
               </div>

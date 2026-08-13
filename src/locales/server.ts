@@ -10,12 +10,17 @@ import {
   cookieName,
   i18nOptions,
   fallbackLng,
+  languages,
 } from './config-locales';
 
 export async function detectLanguage() {
   const cookies = await getCookies();
 
-  const language = cookies.get(cookieName)?.value ?? fallbackLng;
+  const storedLanguage = cookies.get(cookieName)?.value;
+
+  const language = storedLanguage && languages.includes(storedLanguage)
+    ? storedLanguage
+    : fallbackLng;
 
   return language;
 }

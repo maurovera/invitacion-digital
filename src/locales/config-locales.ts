@@ -1,5 +1,5 @@
-export const fallbackLng = 'en';
-export const languages = ['id', 'en'];
+export const fallbackLng = 'es';
+export const languages = ['es', 'en'];
 export const defaultNS = 'common';
 export const cookieName = 'i18next';
 
@@ -20,10 +20,10 @@ export function i18nOptions(lng = fallbackLng, ns = defaultNS) {
 // ----------------------------------------------------------------------
 
 export const changeLangMessages = {
-  id: {
-    success: 'Bahasa telah diubah!',
-    error: 'Kesalahan saat mengubah bahasa!',
-    loading: 'Memuat...',
+  es: {
+    success: '¡El idioma ha sido cambiado!',
+    error: 'Error al cambiar el idioma.',
+    loading: 'Cargando...',
   },
   en: {
     success: 'Language has been changed!',

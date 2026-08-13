@@ -4,9 +4,19 @@ import { useState } from 'react';
 import { motion } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
 import { useTranslation } from 'react-i18next';
+import type { InvitationConfig } from '@/config';
+import { useTranslate } from '@/locales';
 
-export const RSVP = () => {
+export const RSVP = ({ contact, deadline, timeZone }: {
+  contact: InvitationConfig['contact']; deadline: string; timeZone: string;
+}) => {
   const { t } = useTranslation('home');
+  const { currentLang } = useTranslate();
+
+  const deadlineLabel = new Date(deadline).toLocaleDateString(
+    currentLang.numberFormat.code,
+    { year: 'numeric', month: 'long', day: 'numeric', timeZone }
+  );
 
   const [formData, setFormData] = useState({
     name: '',
@@ -265,7 +275,7 @@ export const RSVP = () => {
                     {t('rsvp.deadline')}
                   </h4>
                   <p className="text-gray-600 text-xs sm:text-sm">
-                    {t('rsvp.deadline-date')}
+                    {t('rsvp.deadline-date', { date: deadlineLabel })}
                   </p>
                 </div>
               </div>
@@ -290,8 +300,8 @@ export const RSVP = () => {
                 </div>
               </div>
               <div className="space-y-2 text-xs sm:text-sm text-gray-600">
-                <p>📧 wedding@fihaa.my.id</p>
-                <p>📱 (555) 123-4567</p>
+                <p>📧 {contact.email}</p>
+                <p>📱 {contact.phone}</p>
               </div>
             </div>
 
@@ -314,15 +324,11 @@ export const RSVP = () => {
                 {t('rsvp.registry-text')}
               </p>
               <div className="flex flex-wrap gap-2">
-                <span className="bg-white/60 px-3 py-1 rounded-full text-xs font-medium text-gray-700">
-                  Gank Now
-                </span>
-                <span className="bg-white/60 px-3 py-1 rounded-full text-xs font-medium text-gray-700">
-                  Fantia
-                </span>
-                <span className="bg-white/60 px-3 py-1 rounded-full text-xs font-medium text-gray-700">
-                  Trakteer
-                </span>
+                {contact.registryPlatforms.map((platform) => (
+                  <span key={platform} className="bg-white/60 px-3 py-1 rounded-full text-xs font-medium text-gray-700">
+                    {platform}
+                  </span>
+                ))}
               </div>
             </div>
           </motion.div>

@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Poppins } from 'next/font/google';
 import './globals.css';
 import { LangProvider, LocalizationProvider } from '@/locales';
+import { detectLanguage, getServerTranslations } from '@/locales/server';
+import { INVITATION_CONFIG } from '@/config';
 import { Toaster } from 'sonner';
 
 const poppins = Poppins({
@@ -10,19 +12,24 @@ const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 });
 
-export const metadata: Metadata = {
-  title: 'The Wedding of Fiqri & Beloved',
-  description:
-    'Join us in celebrating the union of Fiqri and his beloved. Discover our love story, wedding details, and more.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getServerTranslations('home');
 
-export default function RootLayout({
+  return {
+    title: t(INVITATION_CONFIG.site.titleKey),
+    description: t(INVITATION_CONFIG.site.descriptionKey),
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const language = await detectLanguage();
+
   return (
-    <html lang="en">
+    <html lang={language}>
       <body className={`${poppins.variable} antialiased`}>
         <LangProvider>
           <LocalizationProvider>

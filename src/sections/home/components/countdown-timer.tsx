@@ -6,10 +6,10 @@ import { useInView } from 'react-intersection-observer';
 import { useTranslation } from 'react-i18next';
 
 interface CountdownTimerProps {
-  targetDate: Date;
+  targetDateTime: string;
 }
 
-export const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
+export const CountdownTimer = ({ targetDateTime }: CountdownTimerProps) => {
   const { t } = useTranslation('home');
 
   const [timeLeft, setTimeLeft] = useState({
@@ -27,7 +27,7 @@ export const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
   useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date().getTime();
-      const distance = targetDate.getTime() - now;
+      const distance = new Date(targetDateTime).getTime() - now;
 
       if (distance > 0) {
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
@@ -46,7 +46,7 @@ export const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [targetDate]);
+  }, [targetDateTime]);
 
   const timeUnits = [
     {

@@ -1,13 +1,12 @@
 'use client';
 
-import type { WeddingConfigType } from '@/types';
+import type { InvitationConfig } from '@/config';
 import { motion } from 'motion/react';
 import { useInView } from 'react-intersection-observer';
 import { useTranslation } from 'react-i18next';
-import { generateMapLink } from '@/lib/wedding-utils';
 
 interface VenueInformationProps {
-  venue: WeddingConfigType['venue'];
+  venue: InvitationConfig['venues'];
 }
 
 export const VenueInformation = ({ venue }: VenueInformationProps) => {
@@ -72,19 +71,16 @@ export const VenueInformation = ({ venue }: VenueInformationProps) => {
 
               <div className="bg-white/50 rounded-2xl p-6 space-y-4">
                 <h5 className="font-semibold text-gray-800 mb-3 text-sm sm:text-base">
-                  {t('venue.ceremony-details')}
+                  {t(venue.ceremony.labelKey)}
                 </h5>
                 <div className="space-y-2 text-xs sm:text-sm text-gray-600">
-                  <p>• {t('venue.arrive-early')}</p>
-                  <p>• {t('venue.unplugged')}</p>
-                  <p>• {t('venue.parking')}</p>
-                  <p>• {t('venue.wheelchair')}</p>
+                  {venue.ceremony.notesKeys.map((key) => <p key={key}>• {t(key)}</p>)}
                 </div>
               </div>
 
               <button
                 onClick={() =>
-                  window.open(generateMapLink(venue.ceremony.name), '_blank')
+                  window.open(venue.ceremony.mapsUrl, '_blank')
                 }
                 className="w-full bg-gradient-to-r from-purple-400 to-indigo-500 text-white py-3 px-6 rounded-xl font-medium hover:from-purple-500 hover:to-indigo-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base cursor-pointer"
               >
@@ -127,19 +123,16 @@ export const VenueInformation = ({ venue }: VenueInformationProps) => {
 
               <div className="bg-white/50 rounded-2xl p-6 space-y-4">
                 <h5 className="font-semibold text-gray-800 mb-3 text-sm sm:text-base">
-                  {t('venue.reception-details')}
+                  {t(venue.reception.labelKey)}
                 </h5>
                 <div className="space-y-2 text-xs sm:text-sm text-gray-600">
-                  <p>• {t('venue.welcome-drink')}</p>
-                  <p>• {t('venue.open-bar')}</p>
-                  <p>• {t('venue.dancing')}</p>
-                  <p>• {t('venue.valet')}</p>
+                  {venue.reception.notesKeys.map((key) => <p key={key}>• {t(key)}</p>)}
                 </div>
               </div>
 
               <button
                 onClick={() =>
-                  window.open(generateMapLink(venue.reception.name), '_blank')
+                  window.open(venue.reception.mapsUrl, '_blank')
                 }
                 className="w-full bg-gradient-to-r from-amber-400 to-orange-500 text-white py-3 px-6 rounded-xl font-medium hover:from-amber-500 hover:to-orange-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base cursor-pointer"
               >

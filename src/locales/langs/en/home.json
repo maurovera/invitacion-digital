@@ -1,4 +1,8 @@
 {
+  "metadata": {
+    "title": "The Wedding of Fiqri & Beloved",
+    "description": "Join us in celebrating the union of Fiqri and his beloved. Discover our love story, wedding details, and more."
+  },
   "letter": {
     "guest": "Guest",
     "dear": "Dear",
@@ -14,11 +18,13 @@
     "title": " We Can't Wait to Celebrate",
     "quote": "Your presence in our lives has been a blessing, and having you celebrate this special day with us would make our joy complete. Thank you for being part of our love story.",
     "with-love": "With all our love,",
-    "hashtags": "#FiqriAndMio2025 #LoveWins #ForeverStartsNow",
-    "contact": "Questions? Contact us at wedding@fihaa.my.id"
+    "hashtags": "{{hashtags}}",
+    "contact": "Questions? Contact us at {{email}}"
   },
   "hero": {
     "welcome": "Welcome to Our Wedding",
+    "event-prefix": "Our",
+    "event-name": "Wedding",
     "together": "Together",
     "scroll-down": "Scroll Down",
     "scroll-to-explore": "Scroll to explore our love story",
@@ -32,7 +38,8 @@
     "story-text": "Our journey began with a simple hello and has blossomed into the most beautiful love story. We're excited to share this special day with all of you.",
     "the-groom": "The Groom",
     "the-bride": "The Bride",
-    "love-quote": "You’re the one I want to share every sunrise and sunset with."
+    "love-quote": "You’re the one I want to share every sunrise and sunset with.",
+    "quote-attribution": "Clannad"
   },
   "details": {
     "title": "Wedding Details",
@@ -141,7 +148,7 @@
     "send-rsvp": "Send RSVP 💕",
     "thank-you-received": "Your RSVP has been received. We can't wait to celebrate with you!",
     "deadline": "RSVP Deadline",
-    "deadline-date": "November 15, 2025",
+    "deadline-date": "{{date}}",
     "deadline-help": "Please respond by this date to help us plan the perfect celebration for everyone.",
     "questions": "Questions?",
     "questions-help": "We're here to help!",
@@ -155,7 +162,9 @@
     "details": "Details",
     "venue": "Venue",
     "gallery": "Gallery",
-    "rsvp": "RSVP Now"
+    "rsvp": "RSVP Now",
+    "current-home": "Home",
+    "progress-of": "of"
   },
   "schedule": {
     "title": "Timeline of Events",
@@ -187,6 +196,9 @@
     "safari": "Safari: Settings → Websites → Auto-Play → Allow All Auto-Play",
     "play-music": "🎵 Play Music",
     "later": "Later",
-    "auto-note": "Music will play automatically after you enable it"
+    "auto-note": "Music will play automatically after you enable it",
+    "autoplay-blocked-label": "Autoplay Blocked",
+    "no-captions": "No captions available",
+    "unsupported-browser": "Your browser does not support the audio element."
   }
 }
